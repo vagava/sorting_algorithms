@@ -1,16 +1,28 @@
 #include "sort.h"
 /**
- * SearchPlace - search the place to insert the node
- * @place: place to insert the node
- * @change: value to compare the value of place
- * Return: pointer to place to insert the node
+ * swap - sswap the nodes
+ * @change: node to change
+ * @list: head of list
+ * Return: nothing
  */
-listint_t *search_place(listint_t *place, listint_t *change)
+void swap(listint_t *change, listint_t **list)
 {
-	while (place->prev && place->prev->n > change->n)
-		place = place->prev;
-	return (place);
+	while (change->prev && change->prev->n > change->n)
+	{
+		if (change->next)
+			change->next->prev = change->prev;
+		change->prev->next = change->next;
+		change->next = change->prev;
+		change->prev = change->prev->prev;
+		change->next->prev = change;
+		if (change->prev)
+			change->prev->next = change;
+		else
+			*list = change;
+		print_list(*list);
+	}
 }
+
 /**
  * insertion_sort_list - function that sorts a doubly linked list of
  * integers in ascending order using the Insertion sort algorithm
@@ -19,7 +31,7 @@ listint_t *search_place(listint_t *place, listint_t *change)
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *place = NULL, *change = NULL, *current = NULL;
+	listint_t *change = NULL, *current = NULL;
 
 	current = (*list)->next;
 
@@ -28,26 +40,8 @@ void insertion_sort_list(listint_t **list)
 		if (current->n < current->prev->n)
 		{
 			change = current;
-			if (current->next)
-			{
-				current = current->next;
-				current->prev = change->prev;
-				change->prev->next = current;
-			}
-			else
-			{
-				change->prev->next = change->next;
-				current = current->next;
-			}
-			place = SearchPlace(change->prev, change);
-			change->prev = place->prev;
-			change->next = place;
-			if (place->prev)
-				place->prev->next = change;
-			else
-				*list = change;
-			place->prev = change;
-			print_list(*list);
+			current = current->next;
+			swap(change, list);
 		}
 		else
 			current = current->next;

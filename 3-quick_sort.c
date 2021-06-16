@@ -27,7 +27,6 @@ void swap_arr(int *sub_array, int index_i, int index_j)
 	aux = sub_array[index_i];
 	sub_array[index_i] = sub_array[index_j];
 	sub_array[index_j] = aux;
-	print_array(sub_array, len_arr(sub_array));
 }
 /**
  * position - function that find the right position of a element in the array
@@ -49,9 +48,11 @@ int position(int *sub_array, int low, int high)
 		{
 			i++;
 			swap_arr(sub_array, i, j);
+
 		}
 	}
 	swap_arr(sub_array, i + 1, high);
+	print_array(sub_array, len_arr(sub_array));
 	return (i + 1);
 }
 /**

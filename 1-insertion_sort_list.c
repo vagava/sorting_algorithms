@@ -33,7 +33,7 @@ void insertion_sort_list(listint_t **list)
 {
 	listint_t *change = NULL, *current = NULL;
 
-	if(!list || !*list)
+	if (!list || !*list)
 		return;
 	current = (*list)->next;
 	while (current)
